@@ -1,0 +1,26 @@
+jenkinsdata:
+  build: build/jenkinsdata
+jenkins:
+  build: build/jenkins/
+  volumes_from:
+    - jenkinsdata
+  ports:
+    - "8080:8080"
+    - "50000:50000"
+
+hub:
+  image: selenium/hub
+  ports:
+    - "4444:4444"
+firefox:
+  image: selenium/node-firefox
+  links:
+    - hub
+chrome:
+  image: selenium/node-chrome
+  links:
+    - hub
+phantomjs:
+  build: node-phantomjs 
+  links:
+    - hub
